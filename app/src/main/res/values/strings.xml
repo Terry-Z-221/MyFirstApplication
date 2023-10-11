@@ -5,4 +5,8 @@
 
     <string name="hello_android">你好Android</string>
 
+    <string name="text_Hello">Hello</string>
+    <string name="text_JNU">JNU</string>
+    <string name="change_text">change text</string>
+
 </resources>
