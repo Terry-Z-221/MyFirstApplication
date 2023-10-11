@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">我的第一个应用</string>
 
+    <string name="JavaForActivity">使用Java创建hello world</string>
+
     <string name="hello_android">你好Android</string>
+
 </resources>
