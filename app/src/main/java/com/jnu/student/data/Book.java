@@ -1,5 +1,7 @@
 package com.jnu.student.data;
 
+import java.io.Serializable;
+
 public class Book {
 
     public String getTitle() {

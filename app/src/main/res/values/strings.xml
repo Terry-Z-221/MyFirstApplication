@@ -15,4 +15,9 @@
     <string name="button_4">Button响应事件方式4</string>
     <string name="textview">TextView</string>
 
+    <string name="textview_book_item_name">图书名称</string>
+    <string name="edittext_name">Edit here</string>
+    <string name="button_OK">确定</string>
+    <string name="button_CANCEL">取消</string>
+
 </resources>
