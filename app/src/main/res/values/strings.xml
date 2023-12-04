@@ -9,4 +9,10 @@
     <string name="text_JNU">JNU</string>
     <string name="change_text">change text</string>
 
+    <string name="button_1">Button响应事件方式1</string>
+    <string name="button_2">Button响应事件方式2</string>
+    <string name="button_3">Button响应事件方式3</string>
+    <string name="button_4">Button响应事件方式4</string>
+    <string name="textview">TextView</string>
+
 </resources>
