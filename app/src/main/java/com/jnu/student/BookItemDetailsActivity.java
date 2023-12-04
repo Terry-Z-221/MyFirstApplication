@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class BookItemDetailsActivity extends AppCompatActivity {
+    private int position = -1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,6 +17,15 @@ public class BookItemDetailsActivity extends AppCompatActivity {
 
         Intent intent = new Intent();
         EditText editTextItemName = findViewById(R.id.editTextText_bookName);
+
+        Intent intentGet = getIntent();
+        if (null != intentGet) {
+            String title = intentGet.getStringExtra("title");
+            position = intentGet.getIntExtra("position", 0);
+            if (null != title) {
+                editTextItemName.setText(title);
+            }
+        }
 
         Button buttonOk = findViewById(R.id.button_item_details_ok);
         buttonOk.setOnClickListener(view -> {
