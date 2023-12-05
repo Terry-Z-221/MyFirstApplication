@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
                     return new WebViewFragment();
                 case 2:
-                    return new BaiduMapFragment();
+                    return new TencentMapFragment();
                 default:
                     return null;
             }

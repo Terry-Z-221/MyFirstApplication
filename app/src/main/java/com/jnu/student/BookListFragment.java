@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jnu.student.data.Book;
 import com.jnu.student.data.DataBank;
 
@@ -30,6 +31,8 @@ public class BookListFragment extends Fragment {
     ArrayList<Book> books = new ArrayList<>();
     RecycleViewBookAdapter recycleViewBookAdapter;
     DataBank dataBank = new DataBank();
+
+    FloatingActionButton floatingActionButton;
     ActivityResultLauncher<Intent> addItemLauncher;   // 用于启动添加窗口
     ActivityResultLauncher<Intent> updateItemLauncher;   // 用于启动修改窗口
 
@@ -61,12 +64,24 @@ public class BookListFragment extends Fragment {
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerview_main);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));   //设置布局管理器
 
+        floatingActionButton = rootView.findViewById(R.id.floatingActionButton);
+        floatingActionButton.setOnClickListener(view -> {
+            Intent intent;
+            intent = new Intent(requireActivity(), BookItemDetailsActivity.class);
+            intent.putExtra("title", "Name");
+            intent.putExtra("position", -1);
+            addItemLauncher.launch(intent);
+        });
+
         books = dataBank.LoadBookItems(requireActivity());
         if(0 == books.size()) {
             books.add(new Book("软件项目管理案例教程（第4版）", R.drawable.book_2));
             books.add(new Book("创新工程实践", R.drawable.book_no_name));
             books.add(new Book("信息安全数学基础（第2版）", R.drawable.book_1));
             dataBank.SaveBookItems(requireActivity(), books);
+        }
+        if(books.size() > 0) {
+            floatingActionButton.setVisibility(View.GONE);
         }
 
         recycleViewBookAdapter = new RecycleViewBookAdapter(books);
@@ -87,7 +102,13 @@ public class BookListFragment extends Fragment {
                             position = data.getIntExtra("position", 0);
                         }
                         // 在这里可以根据需要进行进一步处理
-                        books.add(new Book(name, books.get(position).getCoverResourceId()));
+                        if(-1 == position)
+                            books.add(new Book(name, R.drawable.book_no_name));
+                        else
+                            books.add(new Book(name, books.get(position).getCoverResourceId()));
+                        if(books.size() > 0) {
+                            floatingActionButton.setVisibility(View.GONE);
+                        }
                         recycleViewBookAdapter.notifyItemInserted(books.size());    // 更新数据后刷新界面
                         dataBank.SaveBookItems(requireActivity(), books);
                         Toast.makeText(requireActivity(), "已添加！", Toast.LENGTH_SHORT).show();
@@ -149,6 +170,9 @@ public class BookListFragment extends Fragment {
                 builder.setMessage("确定要删除这一条数据吗？");
                 builder.setPositiveButton("确定", (dialogInterface, i) -> {
                     books.remove(menuItem.getOrder());
+                    if(books.size() == 0) {
+                        floatingActionButton.setVisibility(View.VISIBLE);
+                    }
                     recycleViewBookAdapter.notifyItemRemoved(menuItem.getOrder()); // 更新数据后刷新界面
                     dataBank.SaveBookItems(requireActivity(), books);
                     Toast.makeText(requireActivity(), "已删除！", Toast.LENGTH_SHORT).show();
