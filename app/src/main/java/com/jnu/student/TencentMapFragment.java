@@ -11,12 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 
+import com.jnu.student.data.ShopDownLoader;
+import com.jnu.student.data.ShopLocation;
 import com.tencent.tencentmap.mapsdk.maps.CameraUpdateFactory;
 import com.tencent.tencentmap.mapsdk.maps.TencentMap;
-import com.tencent.tencentmap.mapsdk.maps.model.BitmapDescriptorFactory;
 import com.tencent.tencentmap.mapsdk.maps.model.LatLng;
 import com.tencent.tencentmap.mapsdk.maps.model.Marker;
 import com.tencent.tencentmap.mapsdk.maps.model.MarkerOptions;
+import java.util.ArrayList;
 
 public class TencentMapFragment extends Fragment {
 
@@ -59,10 +61,10 @@ public class TencentMapFragment extends Fragment {
         LatLng point = new LatLng(22.249942,113.534341);
         tencentMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 15));
 
-        // 添加一个图标型Marker
-        MarkerOptions markerOptions = new MarkerOptions(new LatLng(22.249942,113.534341))
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.jnu));
-        tencentMap.addMarker(markerOptions);
+//        // 添加一个图标型Marker
+//        MarkerOptions markerOptions = new MarkerOptions(new LatLng(22.249942,113.534341))
+//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.jnu));
+//        tencentMap.addMarker(markerOptions);
 
         // 添加一个文本型标记
         MarkerOptions textMarkerOptions = new MarkerOptions(point)
@@ -86,7 +88,20 @@ public class TencentMapFragment extends Fragment {
             return false;
         });
 
-
+        new Thread(() -> {
+            ShopDownLoader shopDownLoader = new ShopDownLoader();
+            String responseData = shopDownLoader.download("http://file.nidama.net/class/mobile_develop/data/bookstore2023.json");
+            ArrayList<ShopLocation> shopLocations = shopDownLoader.parseJsonObjects(responseData);
+            requireActivity().runOnUiThread(() -> {
+                for (ShopLocation shopLocation : shopLocations) {
+                    LatLng shopPoint = new LatLng(shopLocation.getLatitude(), shopLocation.getLongitude());
+                    MarkerOptions markerOptions = new MarkerOptions(shopPoint)
+                            .title(shopLocation.getName());
+                    Marker marker = tencentMap.addMarker(markerOptions);
+                    marker.showInfoWindow();
+                }
+            });
+        }).start();
 
         return rootView;
     }
