@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GameViewFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <com.jnu.student.view.GameView
+        android:id="@+id/book_gameView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/hello_blank_fragment"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/game_score_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:text="@string/textview"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/game_time_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/textview"
+        android:textColor="#263238"
+        android:textSize="100sp"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/start_game_button"
+        android:backgroundTint="@color/teal_700"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:textSize="30sp"
+        android:text="@string/start_game" />
+
+</FrameLayout>

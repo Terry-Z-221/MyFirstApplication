@@ -15,7 +15,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 
 public class MainActivity extends AppCompatActivity {
-    private final String []tabHeaderStrings = {"图书","新闻","地图","时钟"};
+    private final String []tabHeaderStrings = {"图书","新闻","地图","时钟","游戏"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         // 获取ViewPager2和TabLayout的实例
         ViewPager2 viewPager = findViewById(R.id.view_pager);
         TabLayout tabLayout = findViewById(R.id.tab_layout);
+        viewPager.setUserInputEnabled(false);
         // 创建适配器
         FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), getLifecycle());
         viewPager.setAdapter(fragmentAdapter);
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static class FragmentAdapter extends FragmentStateAdapter {
-        private static final int NUM_TABS = 4;
+        private static final int NUM_TABS = 5;
         public FragmentAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
             super(fragmentManager, lifecycle);
         }
@@ -55,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
                     return new TencentMapFragment();
                 case 3:
                     return new ClockViewFragment();
+                case 4:
+                    return new GameViewFragment();
                 default:
                     return null;
             }

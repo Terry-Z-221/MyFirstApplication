@@ -32,12 +32,12 @@ public class TencentMapFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static TencentMapFragment newInstance() {
-        TencentMapFragment fragment = new TencentMapFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
+//    public static TencentMapFragment newInstance() {
+//        TencentMapFragment fragment = new TencentMapFragment();
+//        Bundle args = new Bundle();
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,12 +80,10 @@ public class TencentMapFragment extends Fragment {
         textMarker.setClickable(true);
         // 给标记添加响应事件
         tencentMap.setOnMarkerClickListener(marker -> {
-            if (marker.equals(textMarker)) {
-                // 在此处处理文本型标记的点击事件
-                Toast.makeText(requireActivity(), "暨南大学珠海校区", Toast.LENGTH_LONG).show();
-                return true;
-            }
-            return false;
+            // 在此处处理文本型标记的点击事件
+            marker.showInfoWindow();
+            Toast.makeText(requireActivity(), marker.getSnippet(), Toast.LENGTH_SHORT).show();
+            return true;
         });
 
         new Thread(() -> {
@@ -96,7 +94,8 @@ public class TencentMapFragment extends Fragment {
                 for (ShopLocation shopLocation : shopLocations) {
                     LatLng shopPoint = new LatLng(shopLocation.getLatitude(), shopLocation.getLongitude());
                     MarkerOptions markerOptions = new MarkerOptions(shopPoint)
-                            .title(shopLocation.getName());
+                            .title(shopLocation.getName())
+                            .snippet(shopLocation.getMemo());
                     Marker marker = tencentMap.addMarker(markerOptions);
                     marker.showInfoWindow();
                 }
